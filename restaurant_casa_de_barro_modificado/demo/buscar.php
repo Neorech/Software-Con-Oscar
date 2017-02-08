@@ -1,2 +1,0 @@
-<form id="buscador" name="buscador" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">  <input id="buscar" name="buscar" type="search" placeholder="Buscar aquí..." autofocus > <input type="submit" name="buscador" class="boton peque aceptar" value="buscar"> </form>
-<textarea name="comentarios" rows="10" cols="40"></textarea>
