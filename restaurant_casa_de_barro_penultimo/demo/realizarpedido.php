@@ -73,7 +73,7 @@
 		foreach ($_SESSION["arr"] as $valor) {
 			//Actualiza Almacen 
 			//mysql_query("update mesa set mFecha='$fecha' where mId='$idmesa'");	
-			$resultalmacen = mysql_query("SELECT
+			$resultsAlmacen = mysql_query("SELECT
 											idProductoAlmacen,
 											idProducto,
 											idAlmacen,
@@ -84,8 +84,20 @@
 			//debemos verificar que hay stock
 			// para cada idProducto nos fijamos en almacen si la cantidad demandada - cantidad en almacen es mayor a cero
 			//si alguna falla, entonces hacemos un echo + exit;
+			foreach ($resultsAlmacen as $resAlmacen) {
+				$a_cantidad_almacen = mysql_query("SELECT
+													aCantidad
+												FROM
+													almacen
+												WHERE idAlmacen = ".$resAlmacen["idAlmacen"]." ");
+				$a_cant_almacen = mysql_fetch_row($a_cantidad_almacen);
+				if ($a_cant_almacen[0] - $resAlmacen["paCantidad"]*$valor['cantidad'] < 0) {
+					echo '<div id="10668"><div id="alerta" >No hay STOCK!</div></div>';
+					exit;
+				}
+			}
 
-			if ($rowalmacen = mysql_fetch_array($resultalmacen)) { 
+			if ($rowalmacen = mysql_fetch_array($resultsAlmacen)) { 
 				do {
 				//echo 'id Producto : '.$rowalmacen["idProducto"].'  '.$rowalmacen["idAlmacen"].'  '.$rowalmacen["paCantidad"].'<br/>';
 				mysql_query("UPDATE
@@ -93,7 +105,7 @@
 							SET
 								aCantidad = aCantidad - ".($rowalmacen["paCantidad"]*$valor['cantidad'])." where idAlmacen =".$rowalmacen["idAlmacen"]." ");
 				}
-				while ($rowalmacen = mysql_fetch_array($resultalmacen)); 
+				while ($rowalmacen = mysql_fetch_array($resultsAlmacen)); 
 			}
 
 			//echo 'id: '. $valor['id'].'id: '. $valor['cantidad'].'<br/>';
