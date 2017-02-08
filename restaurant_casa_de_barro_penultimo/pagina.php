@@ -28,6 +28,7 @@ function cargar(div, desde)
 				//alert('1231'+ "<? echo $_SESSION['usuario'];?>")
 				var variable = document.getElementById('10663').innerHTML;
 				//alert (variable);
+				//edgarselacome
 }
 </script>
 <a onclick="javascript:cargar('10662','27'); return false;" href="#">PENDIENTE</a>
